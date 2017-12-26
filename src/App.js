@@ -1,18 +1,17 @@
-import React, { Component } from "react";
-import "./App.css";
-import MainPage from "./MainPage";
+import React, { Component } from 'react';
+import './App.css';
+import MainPage from './MainPage';
 
-import { database } from "./firebase";
-import * as firebase from "firebase";
+import firebase from './firebase';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       isLogin: false,
-      error: null
+      error: null,
     };
   }
 
@@ -38,87 +37,86 @@ class App extends Component {
     //   });
   }
 
-  handleChangeEmail = event => {
+  handleChangeEmail = (event) => {
     const newEmail = event.target.value;
     this.setState({
-      email: newEmail
+      email: newEmail,
     });
   };
 
-  handleChangePassword = event => {
+  handleChangePassword = (event) => {
     const newPassord = event.target.value;
     this.setState({
-      password: newPassord
+      password: newPassord,
     });
   };
 
-  //handleSubmit = event => {
+  // handleSubmit = event => {
   // event.preventDefault();
   // database
   //   .ref()
   //   .child("react")
   //   .child("speed")
   //   .push(this.state.text);
-  //};
+  // };
 
-  handleSignIn = event => {
+  handleSignIn = (event) => {
     event.preventDefault();
     const { email, password } = this.state;
     const auth = firebase.auth();
     const promise = auth.signInWithEmailAndPassword(email, password);
 
     promise
-      .then(user => {
+      .then(() => {
         this.setState({
           isLogin: true,
-          email: "",
-          password: "",
-          error: ""
+          email: '',
+          password: '',
+          error: '',
         });
       })
-      .catch(e => {
+      .catch((e) => {
         this.setState({
-          error: e.message
+          error: e.message,
         });
       });
   };
 
-  handleSignUp = event => {
+  handleSignUp = (event) => {
     event.preventDefault();
     const { email, password } = this.state;
     const auth = firebase.auth();
     const promise = auth.createUserWithEmailAndPassword(email, password);
 
     promise
-      .then(user =>
+      .then(() => {
         this.setState({
-          isLogin: true
-        })
-      )
+          isLogin: true,
+        });
+      })
       .catch(e =>
         this.setState({
-          error: e.message
-        })
-      );
+          error: e.message,
+        }));
   };
 
-  handleLogout = event => {
+  handleLogout = (event) => {
     event.preventDefault();
 
     firebase
       .auth()
       .signOut()
       .then(
-        function() {
-          console.log("Signed Out");
+        () => {
+          console.log('Signed Out');
         },
-        function(error) {
-          console.error("Sign Out Error", error);
-        }
+        (error) => {
+          console.error('Sign Out Error', error);
+        },
       );
 
     this.setState({
-      isLogin: false
+      isLogin: false,
     });
   };
 
@@ -162,11 +160,9 @@ class App extends Component {
                     <span className="span-or">or</span>
                   </div>
 
-                  <form role="form">
+                  <form>
                     <div className="form-group">
-                      <label htmlFor="inputUsernameEmail">
-                        Username or email
-                      </label>
+                      <label htmlFor="inputUsernameEmail">Username or email</label>
                       <input
                         type="text"
                         className="form-control"
@@ -188,9 +184,7 @@ class App extends Component {
                       />
                     </div>
 
-                    <div className="error">
-                      {this.state.error ? this.state.error : ""}
-                    </div>
+                    <div className="error">{this.state.error ? this.state.error : ''}</div>
 
                     <div className="row">
                       <div className="col-xs-6 col-sm-6 col-md-6">
